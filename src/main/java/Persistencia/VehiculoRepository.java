@@ -1,9 +1,9 @@
-package main.VehiculoRepository;
+package Persistencia;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import Model.Vehiculo;
+import Modelos.Vehiculo;
 
 public class VehiculoRepository {
 
