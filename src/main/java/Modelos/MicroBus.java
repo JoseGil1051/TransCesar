@@ -4,7 +4,7 @@
  */
 package Modelos;
 
-import Model.Vehiculo;
+import Modelos.Vehiculo;
 
 /**
  *

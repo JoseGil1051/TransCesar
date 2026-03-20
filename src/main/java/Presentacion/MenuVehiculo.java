@@ -65,14 +65,53 @@ public class MenuVehiculo {
     }
     
     public void ListarVehiculo(){
-        
+        try {
+            System.out.println("\n--- Buses ---");
+            List<Bus> buses = busService.listar();
+            if (buses.isEmpty()) System.out.println("No hay buses registrados.");
+            else buses.forEach(System.out::println);
+
+            System.out.println("\n--- Busetas ---");
+            List<Buseta> busetas = busetaService.listar();
+            if (busetas.isEmpty()) System.out.println("No hay busetas registradas.");
+            else busetas.forEach(System.out::println);
+
+            System.out.println("\n--- MicroBuses ---");
+            List<MicroBus> micros = microBusService.listar();
+            if (micros.isEmpty()) System.out.println("No hay microbuses registrados.");
+            else micros.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Error al listar: " + e.getMessage());
+        }
     } 
     
     public void ActualizarVehiculo(){
-        
+        System.out.print("Placa a actualizar: ");
+        String placa = scanner.next();
+        System.out.print("Nueva Ruta: ");
+        String ruta = scanner.next();
+        System.out.print("Nuevo Estado (true/false): ");
+        boolean estado = scanner.nextBoolean();
+        System.out.print("Nueva Capacidad: ");
+        int capacidad = scanner.nextInt();
+        System.out.print("Nueva Tarifa: ");
+        double tarifa = scanner.nextDouble();
+        try {
+            busService.actualizar(new Bus(placa, ruta, estado, capacidad, tarifa));
+            System.out.println("Bus actualizado.");
+        } catch (Exception e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+        }
     } 
     
     public void EliminarVehiculo(){
-        
+        System.out.print("Placa a eliminar: ");
+        String placa = scanner.next();
+        try {
+            busService.eliminar(placa);
+            System.out.println("Bus eliminado.");
+        } catch (Exception e) {
+            System.out.println("Error al eliminar: " + e.getMessage());
+        }
     } 
 } 

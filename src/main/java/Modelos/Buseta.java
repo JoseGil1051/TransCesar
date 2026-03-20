@@ -4,10 +4,14 @@
  */
 package Modelos;
 
+import Modelos.Vehiculo;
+
 /**
  *
  * @author HP
  */
-public class Buseta {
-    
+public class Buseta extends Vehiculo{
+     public Buseta(String placa, String ruta, boolean estado, int capacidad, double tarifa){
+       super(placa, ruta, estado, capacidad, tarifa);
+   }
 }

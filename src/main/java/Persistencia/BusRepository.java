@@ -1,4 +1,4 @@
-package VehiculoService;
+package Persistencia;
 import java.util.List;
 import Modelos.Bus;
 
