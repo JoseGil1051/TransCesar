@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Modelos;
+package Model;
+
 
 import Modelos.Vehiculo;
+public class Buseta extends Vehiculo {
+    private static final int CAPACIDAD_BUSETA = 19;
+    private static final double TARIFA_BUSETA = 8000;
 
-/**
- *
- * @author HP
- */
-public class Buseta extends Vehiculo{
-     public Buseta(String placa, String ruta, boolean estado, int capacidad, double tarifa){
-       super(placa, ruta, estado, capacidad, tarifa);
-   }
+    public Buseta(String placa, String ruta, boolean estado) {
+        super(placa, ruta, estado, CAPACIDAD_BUSETA, TARIFA_BUSETA);
+    }
 }
