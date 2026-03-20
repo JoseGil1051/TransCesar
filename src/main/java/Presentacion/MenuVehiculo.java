@@ -46,21 +46,29 @@ public class MenuVehiculo {
     }
     
     public void RegistrarVehiculo(){
-       System.out.print("Placa a actualizar: ");
-        String placa = scanner.next();
-        System.out.print("Nueva Ruta: ");
-        String ruta = scanner.next();
-        System.out.print("Nuevo Estado (true/false): ");
-        boolean estado = scanner.nextBoolean();
-        System.out.print("Nueva Capacidad: ");
-        int capacidad = scanner.nextInt();
-        System.out.print("Nueva Tarifa: ");
-        double tarifa = scanner.nextDouble();
         try {
-            busService.actualizar(new Bus(placa, ruta, estado, capacidad, tarifa));
-            System.out.println("Bus actualizado.");
+            System.out.println("Tipo de vehiculo:");
+            System.out.println("1. Bus      (45 puestos - $15.000)");
+            System.out.println("2. Buseta   (19 puestos - $8.000)");
+            System.out.println("3. MicroBus (25 puestos - $10.000)");
+            System.out.print("Seleccione: ");
+            int tipo = scanner.nextInt();
+
+            System.out.print("Placa: ");
+            String placa = scanner.next();
+            System.out.print("Ruta: ");
+            String ruta = scanner.next();
+            System.out.print("Estado (true/false): ");
+            boolean estado = scanner.nextBoolean();
+
+            switch (tipo) {
+                case 1 -> { busService.guardar(new Bus(placa, ruta, estado)); System.out.println("Bus registrado."); }
+                case 2 -> { busetaService.guardar(new Buseta(placa, ruta, estado)); System.out.println("Buseta registrada."); }
+                case 3 -> { microBusService.guardar(new MicroBus(placa, ruta, estado)); System.out.println("MicroBus registrado."); }
+                default -> System.out.println("Tipo invalido.");
+            }
         } catch (Exception e) {
-            System.out.println("Error al actualizar: " + e.getMessage());
+            System.out.println("Error al registrar: " + e.getMessage());
         }
     }
     
@@ -86,19 +94,25 @@ public class MenuVehiculo {
     } 
     
     public void ActualizarVehiculo(){
-        System.out.print("Placa a actualizar: ");
-        String placa = scanner.next();
-        System.out.print("Nueva Ruta: ");
-        String ruta = scanner.next();
-        System.out.print("Nuevo Estado (true/false): ");
-        boolean estado = scanner.nextBoolean();
-        System.out.print("Nueva Capacidad: ");
-        int capacidad = scanner.nextInt();
-        System.out.print("Nueva Tarifa: ");
-        double tarifa = scanner.nextDouble();
-        try {
-            busService.actualizar(new Bus(placa, ruta, estado, capacidad, tarifa));
-            System.out.println("Bus actualizado.");
+       try {
+            System.out.println("Tipo de vehiculo a actualizar:");
+            System.out.println("1. Bus  2. Buseta  3. MicroBus");
+            System.out.print("Seleccione: ");
+            int tipo = scanner.nextInt();
+
+            System.out.print("Placa a actualizar: ");
+            String placa = scanner.next();
+            System.out.print("Nueva Ruta: ");
+            String ruta = scanner.next();
+            System.out.print("Nuevo Estado (true/false): ");
+            boolean estado = scanner.nextBoolean();
+
+            switch (tipo) {
+                case 1 -> { busService.actualizar(new Bus(placa, ruta, estado)); System.out.println("Bus actualizado."); }
+                case 2 -> { busetaService.actualizar(new Buseta(placa, ruta, estado)); System.out.println("Buseta actualizada."); }
+                case 3 -> { microBusService.actualizar(new MicroBus(placa, ruta, estado)); System.out.println("MicroBus actualizado."); }
+                default -> System.out.println("Tipo invalido.");
+            }
         } catch (Exception e) {
             System.out.println("Error al actualizar: " + e.getMessage());
         }
