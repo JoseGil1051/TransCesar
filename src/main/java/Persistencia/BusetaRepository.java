@@ -11,10 +11,8 @@ public class BusetaRepository {
 
     private String toCSV(Buseta v) {
         return v.getPlaca() + "," +
-               v.getRuta()  + "," +
-               v.isEstado() + "," +
-               v.getCapacidad() + "," +
-               v.getTarifa();
+               v.getRuta() + "," +
+               v.isEstado();
     }
 
     public void guardar(Buseta v) throws Exception {
@@ -32,14 +30,12 @@ public class BusetaRepository {
         String linea;
         while ((linea = br.readLine()) != null) {
             if (linea.trim().isEmpty()) continue;
-            String[] datos  = linea.split(",");
-            String placa    = datos[0];
-            String ruta     = datos[1];
-            boolean estado  = Boolean.parseBoolean(datos[2]);
-            int capacidad   = Integer.parseInt(datos[3]);
-            double tarifa   = Double.parseDouble(datos[4]);
+            String[] datos = linea.split(",");
+            String placa   = datos[0];
+            String ruta    = datos[1];
+            boolean estado = Boolean.parseBoolean(datos[2]);
 
-            Buseta v = new Buseta(placa, ruta, estado, capacidad, tarifa);
+            Buseta v = new Buseta(placa, ruta, estado);
             lista.add(v);
         }
         br.close();
@@ -48,9 +44,7 @@ public class BusetaRepository {
 
     public Buseta buscarPorPlaca(String placaBuscada) throws Exception {
         for (Buseta v : listar()) {
-            if (v.getPlaca().equalsIgnoreCase(placaBuscada)) {
-                return v;
-            }
+            if (v.getPlaca().equalsIgnoreCase(placaBuscada)) return v;
         }
         return null;
     }
@@ -70,12 +64,15 @@ public class BusetaRepository {
 
     public void eliminar(String placa) throws Exception {
         List<Buseta> lista = listar();
-        PrintWriter pw = new PrintWriter(new FileWriter(archivo));
+        File temp = new File("RegistroBuseta.txt");
+        PrintWriter pw = new PrintWriter(new FileWriter(temp));
         for (Buseta v : lista) {
             if (!v.getPlaca().equalsIgnoreCase(placa)) {
                 pw.println(toCSV(v));
             }
         }
         pw.close();
+        new File(archivo).delete();
+        temp.renameTo(new File(archivo));
     }
 }
