@@ -1,6 +1,6 @@
-package Model;
+package Modelos;
 
-import Modelos.Vehiculo;
+
 
 public class Bus extends Vehiculo{
     private static final int CAPACIDAD_BUS = 45;
