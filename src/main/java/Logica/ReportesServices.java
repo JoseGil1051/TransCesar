@@ -8,6 +8,6 @@ package Logica;
  *
  * @author Nacho
  */
-public class RepotesService {
+public class ReportesServices {
     
 }
