@@ -17,6 +17,10 @@ public class PasajeroService {
     public Optional<Pasajero> buscarPorCedula(int cedula) {
         return repo.buscarPorCedula(cedula);
     }
+    
+    public List<Pasajero> buscarPorTipo(TipoPasajero tipo) {
+    return repo.buscarPorTipo(tipo);
+}
 
     public void listarTodos() {
         repo.listarTodos();
