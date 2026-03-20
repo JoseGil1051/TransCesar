@@ -13,10 +13,17 @@ import java.io.IOException;
 import java.util.List;
 
 public class ReportesService {
-
     private PersonaRepository personaRepo = PersonaRepository.getInstancia();
     private VehiculoRepository vehiculoRepo = VehiculoRepository.getInstancia();
     private TicketRepository ticketRepo = TicketRepository.getInstancia();
+    
+        private static ReportesService instancia;
+     public static ReportesService getInstancia() {
+        if (instancia == null) {
+            instancia = new ReportesService();
+        }
+        return instancia;
+     }
 
     // ─────────────────────────────────────────────
     //  REPORTE VEHÍCULOS
