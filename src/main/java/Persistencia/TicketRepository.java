@@ -35,37 +35,46 @@ public class TicketRepository {
         File f = new File(archivo);
         if (!f.exists()) return lista;
 
-        BufferedReader tk = new BufferedReader(new FileReader(archivo));
-        String linea;
-        while ((linea = tk.readLine()) != null) {
-            if (linea.trim().isEmpty()) continue;
-            String[] datos = linea.split(",");
-            int idTicket = Integer.parseInt(datos[0]);
-            int cedulaPasajero = Integer.parseInt(datos[1]);
-            String placaVehiculo = datos[2];
-            String fechaCompra = datos[3];
-            String origenRuta = datos[4];
-            String destinoRuta = datos[5];
-            double valorFinal = Double.parseDouble(datos[3]);
-            double tipoDescuento = Double.parseDouble(datos[4]);
-
-            Ticket t = new Ticket(idTicket, cedulaPasajero, placaVehiculo, fechaCompra, origenRuta, destinoRuta, valorFinal, tipoDescuento) {};
-            lista.add(t);
+        try (BufferedReader tk = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = tk.readLine()) != null) {
+                if (linea.trim().isEmpty()) continue;
+                String[] datos = linea.split(",");
+                int idTicket = Integer.parseInt(datos[0]);
+                int cedulaPasajero = Integer.parseInt(datos[1]);
+                String placaVehiculo = datos[2];
+                String fechaCompra = datos[3];
+                String origenRuta = datos[4];
+                String destinoRuta = datos[5];
+                double valorFinal = Double.parseDouble(datos[3]);
+                double tipoDescuento = Double.parseDouble(datos[4]);
+                
+                Ticket t = new Ticket(idTicket, cedulaPasajero, placaVehiculo, fechaCompra, origenRuta, destinoRuta, valorFinal, tipoDescuento) {};
+                lista.add(t);
+            }
         }
-        tk.close();
         return lista;
+    }
+    
+    public Ticket buscarPorId(int id) throws IOException {
+        for (Ticket t : listar()) {
+            if (id == t.getIdTicket()) {
+                return t;
+            }
+        }
+        return null;
     }
     
     public void cancelar(int id) throws IOException {
         List<Ticket> lista = listar();
-        PrintWriter tk = new PrintWriter(new FileWriter(archivo));
-        for (Ticket t : lista) {
-            if (id == t.getIdTicket()) {
-                t.setEstadoTicket(false);
+        try (PrintWriter tk = new PrintWriter(new FileWriter(archivo))) {
+            for (Ticket t : lista) {
+                if (id == t.getIdTicket()) {
+                    t.setEstadoTicket(false);
+                }
+                tk.println(toCSV(t));
             }
-            tk.println(toCSV(t));
         }
-        tk.close();
     }
     
 }
