@@ -8,6 +8,12 @@ import Modelos.Buseta;
 public class BusetaRepository {
 
     private final String archivo = "RegistroBuseta.txt";
+    
+    private static BusetaRepository instancia;
+    public static BusetaRepository getInstancia() {
+        if (instancia == null) instancia = new BusetaRepository();
+        return instancia;
+    }
 
     private String toCSV(Buseta v) {
         return v.getPlaca() + "," +

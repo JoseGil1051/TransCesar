@@ -11,6 +11,12 @@ public class ConductorRepository {
 
     private static final String ARCHIVO = "conductores.txt";
     private static final String REGISTRO = "RegistroPersonas.txt";
+    
+    private static ConductorRepository instancia;
+    public static ConductorRepository getInstancia() {
+        if (instancia == null) instancia = new ConductorRepository();
+        return instancia;
+    }
 
     private List<Conductor> conductores = new ArrayList<>();
 

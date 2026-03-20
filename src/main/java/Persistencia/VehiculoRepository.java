@@ -8,6 +8,12 @@ import Modelos.Vehiculo;
 public class VehiculoRepository {
 
     private final String archivo = "RegistroVehiculos.txt";
+    
+    private static VehiculoRepository instancia;
+    public static VehiculoRepository getInstancia() {
+        if (instancia == null) instancia = new VehiculoRepository();
+        return instancia;
+    }
 
     //  Convierte un Vehiculo a línea CSV
     private String toCSV(Vehiculo v) {

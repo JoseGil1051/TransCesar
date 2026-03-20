@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class MenuConductor {
     Scanner scanner = new Scanner(System.in);
     ConductorService conductorService = new ConductorService();
-    public void MenuPasajeros(){
+    public void MenuConductor(){
         int opc;
             
         do{

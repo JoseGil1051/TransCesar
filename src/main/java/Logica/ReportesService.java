@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ReportesService {
 
-    private PersonaRepository personaRepo = new PersonaRepository();
-    private VehiculoRepository vehiculoRepo = new VehiculoRepository();
-    private TicketRepository ticketRepo = new TicketRepository();
+    private PersonaRepository personaRepo = PersonaRepository.getInstancia();
+    private VehiculoRepository vehiculoRepo = VehiculoRepository.getInstancia();
+    private TicketRepository ticketRepo = TicketRepository.getInstancia();
 
     // ─────────────────────────────────────────────
     //  REPORTE VEHÍCULOS

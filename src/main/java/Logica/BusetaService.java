@@ -4,7 +4,7 @@ import Modelos.Buseta;
 import Persistencia.BusetaRepository;
 
 public class BusetaService {
-    private BusetaRepository repo = new BusetaRepository();
+    private BusetaRepository repo = BusetaRepository.getInstancia();
 
     public void guardar(Buseta v) throws Exception {
         if (repo.buscarPorPlaca(v.getPlaca()) != null) {

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class PersonaService {
 
-    private PersonaRepository repo = new PersonaRepository();
+    private PersonaRepository repo = PersonaRepository.getInstancia();
 
     public boolean crearConductor(String nombre, int cedula, int numeroLicencia, String categoria) {
         return repo.crear(new Conductor(nombre, cedula, numeroLicencia, categoria));

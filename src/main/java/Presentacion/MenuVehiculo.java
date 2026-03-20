@@ -16,7 +16,7 @@ public class MenuVehiculo {
      BusService busService = new BusService();
     BusetaService busetaService = new BusetaService();
     MicroBusService microBusService = new MicroBusService();
-    public void MenuPasajeros(){
+    public void MenuVehiculo(){
         int opc;
             
         do{

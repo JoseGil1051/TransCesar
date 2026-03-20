@@ -13,6 +13,12 @@ public class PersonaRepository {
 
     private static final String ARCHIVO_CONDUCTORES = "conductores.txt";
     private static final String ARCHIVO_PASAJEROS   = "pasajeros.txt";
+    
+    private static PersonaRepository instancia;
+    public static PersonaRepository getInstancia() {
+        if (instancia == null) instancia = new PersonaRepository();
+        return instancia;
+    }
 
     private List<Persona> personas = new ArrayList<>();
 

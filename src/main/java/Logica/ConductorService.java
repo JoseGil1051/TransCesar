@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class ConductorService {
 
-    private ConductorRepository repo = new ConductorRepository();
+    private ConductorRepository repo = ConductorRepository.getInstancia();
 
     public boolean crear(String nombre, int cedula, int numeroLicencia, String categoria) {
         // La validación de categoría ya ocurre dentro del constructor de Conductor

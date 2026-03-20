@@ -4,7 +4,7 @@ import Modelos.MicroBus;
 import Persistencia.MicroBusRepository;
 
 public class MicroBusService {
-    private MicroBusRepository repo = new MicroBusRepository();
+    private MicroBusRepository repo = MicroBusRepository.getInstancia();
 
     public void guardar(MicroBus v) throws Exception {
         if (repo.buscarPorPlaca(v.getPlaca()) != null) {

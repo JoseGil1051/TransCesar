@@ -4,7 +4,7 @@ import Modelos.Bus;
 import Persistencia.BusRepository;
 
 public class BusService {
-    private BusRepository repo = new BusRepository();
+    private BusRepository repo = BusRepository.getInstancia();
 
     public void guardar(Bus v) throws Exception {
         if (repo.buscarPorPlaca(v.getPlaca()) != null) {

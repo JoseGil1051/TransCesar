@@ -8,6 +8,12 @@ import Modelos.MicroBus;
 public class MicroBusRepository {
 
     private final String archivo = "RegistroMicroBus.txt";
+    
+    private static MicroBusRepository instancia;
+    public static MicroBusRepository getInstancia() {
+        if (instancia == null) instancia = new MicroBusRepository();
+        return instancia;
+    }
 
     private String toCSV(MicroBus v) {
         return v.getPlaca() + "," +
@@ -64,7 +70,7 @@ public class MicroBusRepository {
 
     public void eliminar(String placa) throws Exception {
         List<MicroBus> lista = listar();
-        File temp = new File("RegistroMicroBustxt");
+        File temp = new File("RegistroMicroBus_temp.txt"); // CORREGIDO
         PrintWriter pw = new PrintWriter(new FileWriter(temp));
         for (MicroBus v : lista) {
             if (!v.getPlaca().equalsIgnoreCase(placa)) {

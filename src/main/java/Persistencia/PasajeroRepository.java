@@ -12,9 +12,20 @@ public class PasajeroRepository {
     private static final String ARCHIVO = "pasajeros.txt";
     private static final String REGISTRO = "RegistroPersonas.txt";
 
+    // ── SINGLETON ──────────────────────────────────
+    private static PasajeroRepository instancia;
+
+    public static PasajeroRepository getInstancia() {
+        if (instancia == null) {
+            instancia = new PasajeroRepository();
+        }
+        return instancia;
+    }
+    // ───────────────────────────────────────────────
+
     private List<Pasajero> pasajeros = new ArrayList<>();
 
-    public PasajeroRepository() {
+    private PasajeroRepository() {   // <- private para forzar uso de getInstancia()
         cargarDesdeArchivo();
     }
 
@@ -109,7 +120,7 @@ public class PasajeroRepository {
     }
 
     // ─────────────────────────────────────────────
-    //  PERSISTENCIA
+    //  PERSISTENCIA (sin cambios)
     // ─────────────────────────────────────────────
 
     private void guardarEnArchivo(Pasajero p) {
@@ -155,8 +166,8 @@ public class PasajeroRepository {
                 String[] partes = linea.split(",", 3);
                 if (partes.length < 3) continue;
                 try {
-                    String nombre = partes[0].trim();
-                    int cedula   = Integer.parseInt(partes[1].trim());
+                    String nombre    = partes[0].trim();
+                    int cedula       = Integer.parseInt(partes[1].trim());
                     TipoPasajero tipo = TipoPasajero.valueOf(partes[2].trim().toUpperCase());
                     pasajeros.add(new Pasajero(nombre, cedula, tipo));
                 } catch (IllegalArgumentException e) {

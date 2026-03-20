@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class VehiculoService {
    
-    private VehiculoRepository repo = new VehiculoRepository();
+    private VehiculoRepository repo = VehiculoRepository.getInstancia();
 
     public void guardar(Vehiculo v) throws Exception {
         // Validar que no exista un vehiculo con la misma placa
