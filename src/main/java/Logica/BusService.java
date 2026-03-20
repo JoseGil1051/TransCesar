@@ -1,4 +1,4 @@
-package BusService;
+package Logica;
 import java.util.List;
 import Modelos.Bus;
 import Persistencia.BusRepository;

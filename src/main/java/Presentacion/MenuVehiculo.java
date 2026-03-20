@@ -1,11 +1,21 @@
 package Presentacion;
 
-import java.util.List;
 import java.util.Scanner;
+import java.util.List;
+import Modelos.Bus;
+import Modelos.Buseta;
+import Modelos.MicroBus;
+import Modelos.Vehiculo;
+import Logica.BusService;
+import Logica.BusetaService;
+import Logica.MicroBusService;
+import Logica.VehiculoService;
 
 public class MenuVehiculo {
     Scanner scanner = new Scanner(System.in);
-
+     BusService busService = new BusService();
+    BusetaService busetaService = new BusetaService();
+    MicroBusService microBusService = new MicroBusService();
     public void MenuPasajeros(){
         int opc;
             
@@ -22,7 +32,8 @@ public class MenuVehiculo {
             
             switch (opc){
                 case 1 -> RegistrarVehiculo();
-
+                
+                
                 case 2 -> ListarVehiculo();
 
                 case 3 -> ActualizarVehiculo();
@@ -35,7 +46,22 @@ public class MenuVehiculo {
     }
     
     public void RegistrarVehiculo(){
-       
+       System.out.print("Placa a actualizar: ");
+        String placa = scanner.next();
+        System.out.print("Nueva Ruta: ");
+        String ruta = scanner.next();
+        System.out.print("Nuevo Estado (true/false): ");
+        boolean estado = scanner.nextBoolean();
+        System.out.print("Nueva Capacidad: ");
+        int capacidad = scanner.nextInt();
+        System.out.print("Nueva Tarifa: ");
+        double tarifa = scanner.nextDouble();
+        try {
+            busService.actualizar(new Bus(placa, ruta, estado, capacidad, tarifa));
+            System.out.println("Bus actualizado.");
+        } catch (Exception e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+        }
     }
     
     public void ListarVehiculo(){

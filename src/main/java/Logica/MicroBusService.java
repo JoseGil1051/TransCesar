@@ -1,4 +1,4 @@
-package MicroBusService;
+package Logica;
 import java.util.List;
 import Modelos.MicroBus;
 import Persistencia.MicroBusRepository;

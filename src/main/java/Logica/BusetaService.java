@@ -1,4 +1,4 @@
-package BusetaServicie;
+package Logica;
 import java.util.List;
 import Modelos.Buseta;
 import Persistencia.BusetaRepository;
