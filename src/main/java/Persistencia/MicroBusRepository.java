@@ -7,14 +7,12 @@ import Modelos.MicroBus;
 
 public class MicroBusRepository {
 
-    private final String archivo = "RegistroMicro.txt";
+    private final String archivo = "RegistroMicroBus.txt";
 
     private String toCSV(MicroBus v) {
         return v.getPlaca() + "," +
-               v.getRuta()  + "," +
-               v.isEstado() + "," +
-               v.getCapacidad() + "," +
-               v.getTarifa();
+               v.getRuta() + "," +
+               v.isEstado();
     }
 
     public void guardar(MicroBus v) throws Exception {
@@ -32,14 +30,12 @@ public class MicroBusRepository {
         String linea;
         while ((linea = br.readLine()) != null) {
             if (linea.trim().isEmpty()) continue;
-            String[] datos  = linea.split(",");
-            String placa    = datos[0];
-            String ruta     = datos[1];
-            boolean estado  = Boolean.parseBoolean(datos[2]);
-            int capacidad   = Integer.parseInt(datos[3]);
-            double tarifa   = Double.parseDouble(datos[4]);
+            String[] datos = linea.split(",");
+            String placa   = datos[0];
+            String ruta    = datos[1];
+            boolean estado = Boolean.parseBoolean(datos[2]);
 
-            MicroBus v = new MicroBus(placa, ruta, estado, capacidad, tarifa);
+            MicroBus v = new MicroBus(placa, ruta, estado);
             lista.add(v);
         }
         br.close();
@@ -48,9 +44,7 @@ public class MicroBusRepository {
 
     public MicroBus buscarPorPlaca(String placaBuscada) throws Exception {
         for (MicroBus v : listar()) {
-            if (v.getPlaca().equalsIgnoreCase(placaBuscada)) {
-                return v;
-            }
+            if (v.getPlaca().equalsIgnoreCase(placaBuscada)) return v;
         }
         return null;
     }
@@ -70,12 +64,15 @@ public class MicroBusRepository {
 
     public void eliminar(String placa) throws Exception {
         List<MicroBus> lista = listar();
-        PrintWriter pw = new PrintWriter(new FileWriter(archivo));
+        File temp = new File("RegistroMicroBustxt");
+        PrintWriter pw = new PrintWriter(new FileWriter(temp));
         for (MicroBus v : lista) {
             if (!v.getPlaca().equalsIgnoreCase(placa)) {
                 pw.println(toCSV(v));
             }
         }
         pw.close();
+        new File(archivo).delete();
+        temp.renameTo(new File(archivo));
     }
 }
