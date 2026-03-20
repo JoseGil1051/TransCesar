@@ -10,4 +10,35 @@ package Modelos;
  */
 public class Pasajero extends Persona{
     private TipoPasajero tipoPasajero;
+    
+    public Pasajero() {
+    }
+
+    public Pasajero(String nombre, int cedula, TipoPasajero tipoPasajero) {
+        super(nombre, cedula);
+        this.tipoPasajero = tipoPasajero;
+    }
+
+    public TipoPasajero getTipoPasajero() {
+        return tipoPasajero;
+    }
+
+    public void setTipoPasajero(TipoPasajero tipoPasajero) {
+        this.tipoPasajero = tipoPasajero;
+    }
+
+    /**
+     * Calcula el precio final del ticket según el tipo de pasajero.
+     */
+    public double calcularPrecioTicket(double precioBase) {
+        return tipoPasajero.aplicarDescuento(precioBase);
+    }
+
+    /**
+     * Representación para guardar en pasajeros.txt
+     */
+    @Override
+    public String toString() {
+        return getNombre() + "," + getCedula() + "," + tipoPasajero.name();
+    }
 }
