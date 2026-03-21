@@ -16,6 +16,7 @@ public class MenuVehiculo {
      BusService busService = new BusService();
     BusetaService busetaService = new BusetaService();
     MicroBusService microBusService = new MicroBusService();
+    RutaService rutaService = new RutaService();
     public void MenuVehiculo(){
         int opc;
             
@@ -44,7 +45,20 @@ public class MenuVehiculo {
             }
         }while (opc != 5);
     }
-    
+    private Ruta seleccionarRuta() throws Exception {
+    System.out.println("\nRutas disponibles:");
+    List<Ruta> rutas = rutaService.listar();
+    if (rutas.isEmpty()) {
+        System.out.println("No hay rutas registradas. Registre una ruta primero.");
+        return null;
+    }
+    rutas.forEach(System.out::println);
+    System.out.print("Ingrese codigo de ruta: ");
+    String codigo = scanner.next();
+    Ruta ruta = rutaService.buscarPorCodigo(codigo);
+    if (ruta == null) System.out.println("Ruta no encontrada.");
+    return ruta;
+}
     public void RegistrarVehiculo(){
         try {
             System.out.println("Tipo de vehiculo:");
@@ -95,28 +109,29 @@ public class MenuVehiculo {
     } 
     
     public void ActualizarVehiculo(){
-       try {
-            System.out.println("Tipo de vehiculo a actualizar:");
-            System.out.println("1. Bus  2. Buseta  3. MicroBus");
-            System.out.print("Seleccione: ");
-            int tipo = scanner.nextInt();
+      try {
+    System.out.println("Tipo de vehiculo a actualizar:");
+    System.out.println("1. Bus  2. Buseta  3. MicroBus");
+    System.out.print("Seleccione: ");
+    int tipo = scanner.nextInt();
 
-            System.out.print("Placa a actualizar: ");
-            String placa = scanner.next();
-            System.out.print("Nueva Ruta: ");
-            String ruta = scanner.next();
-            System.out.print("Nuevo Estado (true/false): ");
-            boolean estado = scanner.nextBoolean();
+    System.out.print("Placa a actualizar: ");
+    String placa = scanner.next();
+    System.out.print("Nuevo Estado (true/false): ");
+    boolean estado = scanner.nextBoolean();
 
-            switch (tipo) {
-                case 1 -> { busService.actualizar(new Bus(placa, ruta, estado)); System.out.println("Bus actualizado."); }
-                case 2 -> { busetaService.actualizar(new Buseta(placa, ruta, estado)); System.out.println("Buseta actualizada."); }
-                case 3 -> { microBusService.actualizar(new MicroBus(placa, ruta, estado)); System.out.println("MicroBus actualizado."); }
-                default -> System.out.println("Tipo invalido.");
-            }
-        } catch (Exception e) {
-            System.out.println("Error al actualizar: " + e.getMessage());
-        }
+    Ruta ruta = seleccionarRuta();
+    if (ruta == null) return;
+
+    switch (tipo) {
+        case 1 -> { busService.actualizar(new Bus(placa, ruta, estado)); System.out.println("Bus actualizado."); }
+        case 2 -> { busetaService.actualizar(new Buseta(placa, ruta, estado)); System.out.println("Buseta actualizada."); }
+        case 3 -> { microBusService.actualizar(new MicroBus(placa, ruta, estado)); System.out.println("MicroBus actualizado."); }
+        default -> System.out.println("Tipo invalido.");
+    }
+} catch (Exception e) {
+    System.out.println("Error al actualizar: " + e.getMessage());
+}
     } 
     
     public void EliminarVehiculo(){
