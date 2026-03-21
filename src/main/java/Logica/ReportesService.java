@@ -9,25 +9,20 @@ import Modelos.Vehiculo;
 import Persistencia.PersonaRepository;
 import Persistencia.TicketRepository;
 import Persistencia.VehiculoRepository;
-import java.io.IOException;
 import java.util.List;
 
 public class ReportesService {
     private PersonaRepository personaRepo = PersonaRepository.getInstancia();
     private VehiculoRepository vehiculoRepo = VehiculoRepository.getInstancia();
     private TicketRepository ticketRepo = TicketRepository.getInstancia();
-    
-        private static ReportesService instancia;
-     public static ReportesService getInstancia() {
+
+    private static ReportesService instancia;
+    public static ReportesService getInstancia() {
         if (instancia == null) {
             instancia = new ReportesService();
         }
         return instancia;
-     }
-
-    // ─────────────────────────────────────────────
-    //  REPORTE VEHÍCULOS
-    // ─────────────────────────────────────────────
+    }
 
     public void reporteVehiculos() {
         try {
@@ -60,14 +55,10 @@ public class ReportesService {
             System.out.println("  Inactivos       : " + inactivos);
             System.out.println("════════════════════════════════════════════\n");
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error al generar reporte de vehículos: " + e.getMessage());
         }
     }
-
-    // ─────────────────────────────────────────────
-    //  REPORTE PERSONAS
-    // ─────────────────────────────────────────────
 
     public void reportePersonas() {
         List<Persona> lista = personaRepo.obtenerTodos();
@@ -110,7 +101,7 @@ public class ReportesService {
                 System.out.println("  Tipo      : " + pa.getTipoPasajero());
                 System.out.println("  Descuento : " + (int)(pa.getTipoPasajero().getDescuento() * 100) + "%");
                 totalPasajeros++;
-                if (pa.getTipoPasajero() == TipoPasajero.REGULAR)       regulares++;
+                if (pa.getTipoPasajero() == TipoPasajero.REGULAR)            regulares++;
                 else if (pa.getTipoPasajero() == TipoPasajero.ESTUDIANTE)    estudiantes++;
                 else if (pa.getTipoPasajero() == TipoPasajero.ADULTO_MAYOR)  adultosMayores++;
             }
@@ -126,10 +117,6 @@ public class ReportesService {
         System.out.println("════════════════════════════════════════════\n");
     }
 
-    // ─────────────────────────────────────────────
-    //  REPORTE TICKETS
-    // ─────────────────────────────────────────────
-
     public void reporteTickets() {
         try {
             List<Ticket> lista = ticketRepo.listar();
@@ -143,7 +130,7 @@ public class ReportesService {
                 return;
             }
 
-            double totalRecaudado = 0;
+            double totalRecaudado  = 0;
             double totalDescuentos = 0;
 
             for (Ticket t : lista) {
@@ -167,21 +154,16 @@ public class ReportesService {
                     lista.isEmpty() ? 0 : totalDescuentos / lista.size());
             System.out.println("════════════════════════════════════════════\n");
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error al generar reporte de tickets: " + e.getMessage());
         }
     }
-
-    // ─────────────────────────────────────────────
-    //  REPORTE GENERAL
-    // ─────────────────────────────────────────────
 
     public void reporteGeneral() {
         System.out.println("\n╔══════════════════════════════════════════╗");
         System.out.println("║           REPORTE GENERAL                ║");
         System.out.println("╚══════════════════════════════════════════╝");
 
-        // — Personas —
         List<Persona> personas = personaRepo.obtenerTodos();
         long conductores = personas.stream().filter(p -> p instanceof Conductor).count();
         long pasajeros   = personas.stream().filter(p -> p instanceof Pasajero).count();
@@ -191,7 +173,6 @@ public class ReportesService {
         System.out.println("  Conductores: " + conductores);
         System.out.println("  Pasajeros  : " + pasajeros);
 
-        // — Vehículos —
         try {
             List<Vehiculo> vehiculos = vehiculoRepo.listar();
             long activos   = vehiculos.stream().filter(Vehiculo::isEstado).count();
@@ -201,11 +182,10 @@ public class ReportesService {
             System.out.println("  Total    : " + vehiculos.size());
             System.out.println("  Activos  : " + activos);
             System.out.println("  Inactivos: " + inactivos);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("  Error al leer vehículos: " + e.getMessage());
         }
 
-        // — Tickets —
         try {
             List<Ticket> tickets = ticketRepo.listar();
             double totalRecaudado = tickets.stream()
@@ -215,7 +195,7 @@ public class ReportesService {
             System.out.println("\n  [TICKETS]");
             System.out.println("  Total emitidos  : " + tickets.size());
             System.out.printf("  Total recaudado : $%.2f%n", totalRecaudado);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("  Error al leer tickets: " + e.getMessage());
         }
 

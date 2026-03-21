@@ -5,11 +5,11 @@ import java.util.List;
 import Modelos.Bus;
 import Modelos.Buseta;
 import Modelos.MicroBus;
-import Modelos.Vehiculo;
+import Modelos.Ruta;
 import Logica.BusService;
 import Logica.BusetaService;
 import Logica.MicroBusService;
-import Logica.VehiculoService;
+import Logica.RutaService;
 
 public class MenuVehiculo {
     Scanner scanner = new Scanner(System.in);
@@ -56,10 +56,11 @@ public class MenuVehiculo {
 
             System.out.print("Placa: ");
             String placa = scanner.next();
-            System.out.print("Ruta: ");
-            String ruta = scanner.next();
             System.out.print("Estado (true/false): ");
             boolean estado = scanner.nextBoolean();
+
+            Ruta ruta = seleccionarRuta();
+            if (ruta == null) return;
 
             switch (tipo) {
                 case 1 -> { busService.guardar(new Bus(placa, ruta, estado)); System.out.println("Bus registrado."); }
