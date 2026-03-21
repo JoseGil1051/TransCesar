@@ -8,8 +8,14 @@ import Modelos.Ruta;
 
 public class VehiculoRepository {
 
+    private static VehiculoRepository instancia;
+    public static VehiculoRepository getInstancia() {
+        if (instancia == null) instancia = new VehiculoRepository();
+        return instancia;
+    }
+
     private final String archivo = "RegistroVehiculos.txt";
-    private RutaRepository rutaRepo = new RutaRepository();
+    private RutaRepository rutaRepo = RutaRepository.getInstancia();
 
     private String toCSV(Vehiculo v) {
         return v.getPlaca() + "," +
