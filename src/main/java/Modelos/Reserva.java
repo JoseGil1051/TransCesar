@@ -1,7 +1,7 @@
 package Modelos;
 
 public class Reserva {    
-    private enum estadoReserva {
+    public enum estadoReserva {
         ACTIVA, 
         CONVERTIDA, 
         CANCELADA;
