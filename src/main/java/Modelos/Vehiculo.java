@@ -11,7 +11,7 @@ package Modelos;
 public abstract class Vehiculo {
 
     private String placa;
-    private String ruta;
+    private Ruta ruta;
     private boolean estado;
     private int capacidad;
     private double tarifa;
@@ -19,7 +19,7 @@ public abstract class Vehiculo {
     public Vehiculo() {
     }
 
-    public Vehiculo(String placa, String ruta, boolean estado, int capacidad, double tarifa) {
+    public Vehiculo(String placa, Ruta ruta, boolean estado, int capacidad, double tarifa) {
         this.placa = placa;
         this.ruta = ruta;
         this.estado = estado;
@@ -44,14 +44,14 @@ public abstract class Vehiculo {
     /**
      * @return the ruta
      */
-    public String getRuta() {
+    public Ruta getRuta() {
         return ruta;
     }
 
     /**
      * @param ruta the ruta to set
      */
-    public void setRuta(String ruta) {
+    public void setRuta(Ruta ruta) {
         this.ruta = ruta;
     }
 
