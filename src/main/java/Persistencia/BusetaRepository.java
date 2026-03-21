@@ -4,20 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import Modelos.Buseta;
+import Modelos.Ruta;
 
 public class BusetaRepository {
 
     private final String archivo = "RegistroBuseta.txt";
-    
-    private static BusetaRepository instancia;
-    public static BusetaRepository getInstancia() {
-        if (instancia == null) instancia = new BusetaRepository();
-        return instancia;
-    }
+    private RutaRepository rutaRepo = new RutaRepository();
 
     private String toCSV(Buseta v) {
         return v.getPlaca() + "," +
-               v.getRuta() + "," +
+               v.getRuta().getCodigoRuta() + "," +
                v.isEstado();
     }
 
@@ -38,7 +34,7 @@ public class BusetaRepository {
             if (linea.trim().isEmpty()) continue;
             String[] datos = linea.split(",");
             String placa   = datos[0];
-            String ruta    = datos[1];
+            Ruta ruta      = rutaRepo.buscarPorCodigo(datos[1]);
             boolean estado = Boolean.parseBoolean(datos[2]);
 
             Buseta v = new Buseta(placa, ruta, estado);
@@ -70,7 +66,7 @@ public class BusetaRepository {
 
     public void eliminar(String placa) throws Exception {
         List<Buseta> lista = listar();
-        File temp = new File("RegistroBuseta.txt");
+        File temp = new File("RegistroBuseta_temp.txt");
         PrintWriter pw = new PrintWriter(new FileWriter(temp));
         for (Buseta v : lista) {
             if (!v.getPlaca().equalsIgnoreCase(placa)) {
