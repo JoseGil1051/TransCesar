@@ -3,6 +3,7 @@ package Persistencia;
 import Modelos.Pasajero;
 import Modelos.TipoPasajero;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class PasajeroRepository {
 
     private List<Pasajero> pasajeros = new ArrayList<>();
 
-    private PasajeroRepository() {   // <- private para forzar uso de getInstancia()
+    private PasajeroRepository() {
         cargarDesdeArchivo();
     }
 
@@ -71,7 +72,8 @@ public class PasajeroRepository {
             System.out.println("[Pasajero] " + p.getNombre()
                     + " | Cédula: " + p.getCedula()
                     + " | Tipo: " + p.getTipoPasajero()
-                    + " | Descuento: " + (int)(p.getTipoPasajero().getDescuento() * 100) + "%");
+                    + " | Descuento: " + (int)(p.getTipoPasajero().getDescuento() * 100) + "%"
+                    + " | Fecha Nac: " + p.getFechaNacimiento());
         }
     }
 
@@ -120,12 +122,14 @@ public class PasajeroRepository {
     }
 
     // ─────────────────────────────────────────────
-    //  PERSISTENCIA (sin cambios)
+    //  PERSISTENCIA
     // ─────────────────────────────────────────────
 
     private void guardarEnArchivo(Pasajero p) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO, true))) {
-            bw.write(p.getNombre() + "," + p.getCedula() + "," + p.getTipoPasajero().name());
+            bw.write(p.getNombre() + "," + p.getCedula() + ","
+                    + p.getTipoPasajero().name() + ","
+                    + p.getFechaNacimiento());
             bw.newLine();
         } catch (IOException e) {
             System.out.println("Error al guardar pasajero: " + e.getMessage());
@@ -134,7 +138,9 @@ public class PasajeroRepository {
 
     private void registrarEnRegistroGeneral(Pasajero p) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(REGISTRO, true))) {
-            bw.write("PASAJERO," + p.getNombre() + "," + p.getCedula() + "," + p.getTipoPasajero().name());
+            bw.write("PASAJERO," + p.getNombre() + "," + p.getCedula() + ","
+                    + p.getTipoPasajero().name() + ","
+                    + p.getFechaNacimiento());
             bw.newLine();
         } catch (IOException e) {
             System.out.println("Error al registrar en registro general: " + e.getMessage());
@@ -144,7 +150,9 @@ public class PasajeroRepository {
     private void reescribirArchivo() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO, false))) {
             for (Pasajero p : pasajeros) {
-                bw.write(p.getNombre() + "," + p.getCedula() + "," + p.getTipoPasajero().name());
+                bw.write(p.getNombre() + "," + p.getCedula() + ","
+                        + p.getTipoPasajero().name() + ","
+                        + p.getFechaNacimiento());
                 bw.newLine();
             }
         } catch (IOException e) {
@@ -163,13 +171,14 @@ public class PasajeroRepository {
             while ((linea = br.readLine()) != null) {
                 linea = linea.trim();
                 if (linea.isEmpty()) continue;
-                String[] partes = linea.split(",", 3);
-                if (partes.length < 3) continue;
+                String[] partes = linea.split(",", 4);
+                if (partes.length < 4) continue;
                 try {
-                    String nombre    = partes[0].trim();
-                    int cedula       = Integer.parseInt(partes[1].trim());
+                    String nombre     = partes[0].trim();
+                    int cedula        = Integer.parseInt(partes[1].trim());
                     TipoPasajero tipo = TipoPasajero.valueOf(partes[2].trim().toUpperCase());
-                    pasajeros.add(new Pasajero(nombre, cedula, tipo));
+                    LocalDate fecha   = LocalDate.parse(partes[3].trim());
+                    pasajeros.add(new Pasajero(nombre, cedula, tipo, fecha));
                 } catch (IllegalArgumentException e) {
                     System.out.println("Línea inválida ignorada: " + linea);
                 }
