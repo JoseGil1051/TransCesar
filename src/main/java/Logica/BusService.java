@@ -1,4 +1,5 @@
 package Logica;
+
 import java.util.List;
 import Modelos.Bus;
 import Persistencia.BusRepository;
@@ -37,9 +38,7 @@ public class BusService {
 
     public boolean tieneCupos(String placa) throws Exception {
         Bus v = repo.buscarPorPlaca(placa);
-        if (v == null) {
-            throw new Exception("No existe un Bus con la placa: " + placa);
-        }
+        if (v == null) throw new Exception("No existe un Bus con la placa: " + placa);
         return v.getCapacidad() > 0;
     }
 }
