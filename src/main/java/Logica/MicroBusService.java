@@ -1,4 +1,5 @@
 package Logica;
+
 import java.util.List;
 import Modelos.MicroBus;
 import Persistencia.MicroBusRepository;
@@ -37,9 +38,7 @@ public class MicroBusService {
 
     public boolean tieneCupos(String placa) throws Exception {
         MicroBus v = repo.buscarPorPlaca(placa);
-        if (v == null) {
-            throw new Exception("No existe un MicroBus con la placa: " + placa);
-        }
+        if (v == null) throw new Exception("No existe un MicroBus con la placa: " + placa);
         return v.getCapacidad() > 0;
     }
 }
