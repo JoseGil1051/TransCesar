@@ -4,20 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import Modelos.Bus;
+import Modelos.Ruta;
 
 public class BusRepository {
 
     private final String archivo = "RegistroBus.txt";
-    
-    private static BusRepository instancia;
-    public static BusRepository getInstancia() {
-        if (instancia == null) instancia = new BusRepository();
-        return instancia;
-    }
+    private RutaRepository rutaRepo = new RutaRepository();
 
     private String toCSV(Bus v) {
         return v.getPlaca() + "," +
-               v.getRuta() + "," +
+               v.getRuta().getCodigoRuta() + "," +
                v.isEstado();
     }
 
@@ -38,7 +34,7 @@ public class BusRepository {
             if (linea.trim().isEmpty()) continue;
             String[] datos = linea.split(",");
             String placa   = datos[0];
-            String ruta    = datos[1];
+            Ruta ruta      = rutaRepo.buscarPorCodigo(datos[1]);
             boolean estado = Boolean.parseBoolean(datos[2]);
 
             Bus v = new Bus(placa, ruta, estado);
