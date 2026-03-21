@@ -5,6 +5,8 @@ import Modelos.Pasajero;
 import Modelos.Persona;
 import Modelos.TipoPasajero;
 import Persistencia.PersonaRepository;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +18,18 @@ public class PersonaService {
         return repo.crear(new Conductor(nombre, cedula, numeroLicencia, categoria));
     }
 
-    public boolean crearPasajero(String nombre, int cedula, TipoPasajero tipo) { // ← CAMBIADO
-        return repo.crear(new Pasajero(nombre, cedula, tipo));
+    public boolean crearPasajero(String nombre, int cedula, LocalDate fechaNacimiento, TipoPasajero tipoSolicitado) {
+        int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
+
+        TipoPasajero tipoFinal;
+        if (edad >= 60) {
+            tipoFinal = TipoPasajero.ADULTO_MAYOR;
+            System.out.println("Pasajero mayor de 60 años, se asigna ADULTO_MAYOR automáticamente.");
+        } else {
+            tipoFinal = tipoSolicitado;
+        }
+
+        return repo.crear(new Pasajero(nombre, cedula, tipoFinal, fechaNacimiento));
     }
 
     public Optional<Persona> buscarPorCedula(int cedula) {
@@ -40,7 +52,7 @@ public class PersonaService {
         return repo.actualizarConductor(cedula, nuevoNumLicencia, nuevaCategoria);
     }
 
-    public boolean actualizarPasajero(int cedula, TipoPasajero nuevoTipo) { // ← CAMBIADO
+    public boolean actualizarPasajero(int cedula, TipoPasajero nuevoTipo) {
         return repo.actualizarPasajero(cedula, nuevoTipo);
     }
 
