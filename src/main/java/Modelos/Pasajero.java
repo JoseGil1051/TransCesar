@@ -4,12 +4,15 @@
  */
 package Modelos;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Nacho
  */
 public class Pasajero extends Persona{
     private TipoPasajero tipoPasajero;
+    private LocalDate fechaNacimiento;
     
     public Pasajero() {
     }
