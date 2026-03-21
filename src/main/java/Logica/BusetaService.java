@@ -1,4 +1,5 @@
 package Logica;
+
 import java.util.List;
 import Modelos.Buseta;
 import Persistencia.BusetaRepository;
@@ -37,9 +38,7 @@ public class BusetaService {
 
     public boolean tieneCupos(String placa) throws Exception {
         Buseta v = repo.buscarPorPlaca(placa);
-        if (v == null) {
-            throw new Exception("No existe una Buseta con la placa: " + placa);
-        }
+        if (v == null) throw new Exception("No existe una Buseta con la placa: " + placa);
         return v.getCapacidad() > 0;
     }
 }
