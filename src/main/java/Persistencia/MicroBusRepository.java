@@ -4,20 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import Modelos.MicroBus;
+import Modelos.Ruta;
 
 public class MicroBusRepository {
 
     private final String archivo = "RegistroMicroBus.txt";
-    
-    private static MicroBusRepository instancia;
-    public static MicroBusRepository getInstancia() {
-        if (instancia == null) instancia = new MicroBusRepository();
-        return instancia;
-    }
+    private RutaRepository rutaRepo = new RutaRepository();
 
     private String toCSV(MicroBus v) {
         return v.getPlaca() + "," +
-               v.getRuta() + "," +
+               v.getRuta().getCodigoRuta() + "," +
                v.isEstado();
     }
 
@@ -38,7 +34,7 @@ public class MicroBusRepository {
             if (linea.trim().isEmpty()) continue;
             String[] datos = linea.split(",");
             String placa   = datos[0];
-            String ruta    = datos[1];
+            Ruta ruta      = rutaRepo.buscarPorCodigo(datos[1]);
             boolean estado = Boolean.parseBoolean(datos[2]);
 
             MicroBus v = new MicroBus(placa, ruta, estado);
@@ -70,7 +66,7 @@ public class MicroBusRepository {
 
     public void eliminar(String placa) throws Exception {
         List<MicroBus> lista = listar();
-        File temp = new File("RegistroMicroBus_temp.txt"); // CORREGIDO
+        File temp = new File("RegistroMicroBus_temp.txt");
         PrintWriter pw = new PrintWriter(new FileWriter(temp));
         for (MicroBus v : lista) {
             if (!v.getPlaca().equalsIgnoreCase(placa)) {
