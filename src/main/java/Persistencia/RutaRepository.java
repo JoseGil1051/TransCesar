@@ -8,6 +8,12 @@ import Modelos.Ruta;
 public class RutaRepository {
 
     private final String archivo = "RegistroRutas.txt";
+    
+    private static RutaRepository instancia;
+    public static RutaRepository getInstancia() {
+    if (instancia == null) instancia = new RutaRepository();
+    return instancia;
+}
 
     private String toCSV(Ruta r) {
         return r.getCodigoRuta()            + "," +

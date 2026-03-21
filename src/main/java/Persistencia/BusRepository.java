@@ -8,8 +8,14 @@ import Modelos.Ruta;
 
 public class BusRepository {
 
+    private static BusRepository instancia;
+    public static BusRepository getInstancia() {
+        if (instancia == null) instancia = new BusRepository();
+        return instancia;
+    }
+
     private final String archivo = "RegistroBus.txt";
-    private RutaRepository rutaRepo = new RutaRepository();
+    private RutaRepository rutaRepo = RutaRepository.getInstancia();
 
     private String toCSV(Bus v) {
         return v.getPlaca() + "," +
