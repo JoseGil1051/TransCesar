@@ -8,8 +8,14 @@ import Modelos.Ruta;
 
 public class MicroBusRepository {
 
+    private static MicroBusRepository instancia;
+    public static MicroBusRepository getInstancia() {
+        if (instancia == null) instancia = new MicroBusRepository();
+        return instancia;
+    }
+
     private final String archivo = "RegistroMicroBus.txt";
-    private RutaRepository rutaRepo = new RutaRepository();
+    private RutaRepository rutaRepo = RutaRepository.getInstancia();
 
     private String toCSV(MicroBus v) {
         return v.getPlaca() + "," +
