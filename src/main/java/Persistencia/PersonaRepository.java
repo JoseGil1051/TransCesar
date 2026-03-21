@@ -5,6 +5,7 @@ import Modelos.Pasajero;
 import Modelos.Persona;
 import Modelos.TipoPasajero;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class PersonaRepository {
 
     private static final String ARCHIVO_CONDUCTORES = "conductores.txt";
     private static final String ARCHIVO_PASAJEROS   = "pasajeros.txt";
-    
+
     private static PersonaRepository instancia;
     public static PersonaRepository getInstancia() {
         if (instancia == null) instancia = new PersonaRepository();
@@ -83,7 +84,8 @@ public class PersonaRepository {
                 System.out.println("[Pasajero]  " + pa.getNombre()
                         + " | Cédula: " + pa.getCedula()
                         + " | Tipo: " + pa.getTipoPasajero()
-                        + " | Descuento: " + (int)(pa.getTipoPasajero().getDescuento() * 100) + "%");
+                        + " | Descuento: " + (int)(pa.getTipoPasajero().getDescuento() * 100) + "%"
+                        + " | Fecha Nac: " + pa.getFechaNacimiento());
             } else {
                 System.out.println("[Persona]   " + p.getNombre()
                         + " | Cédula: " + p.getCedula());
@@ -172,7 +174,8 @@ public class PersonaRepository {
             archivo = ARCHIVO_PASAJEROS;
             linea   = p.getNombre() + ","
                     + p.getCedula() + ","
-                    + p.getTipoPasajero().name(); // ← CAMBIADO
+                    + p.getTipoPasajero().name() + ","
+                    + p.getFechaNacimiento(); // ← NUEVO
         } else {
             return;
         }
@@ -201,7 +204,8 @@ public class PersonaRepository {
                     Pasajero p = (Pasajero) persona;
                     bwP.write(p.getNombre() + ","
                             + p.getCedula() + ","
-                            + p.getTipoPasajero().name()); // ← CAMBIADO
+                            + p.getTipoPasajero().name() + ","
+                            + p.getFechaNacimiento()); // ← NUEVO
                     bwP.newLine();
                 }
             }
@@ -252,13 +256,14 @@ public class PersonaRepository {
             while ((linea = br.readLine()) != null) {
                 linea = linea.trim();
                 if (linea.isEmpty()) continue;
-                String[] partes = linea.split(",", 3);
-                if (partes.length < 3) continue;
+                String[] partes = linea.split(",", 4); // ← CAMBIADO a 4
+                if (partes.length < 4) continue;
                 try {
-                    String nombre = partes[0].trim();
-                    int    cedula = Integer.parseInt(partes[1].trim());
-                    TipoPasajero tipo = TipoPasajero.valueOf(partes[2].trim().toUpperCase()); // ← CAMBIADO
-                    personas.add(new Pasajero(nombre, cedula, tipo));
+                    String nombre        = partes[0].trim();
+                    int    cedula        = Integer.parseInt(partes[1].trim());
+                    TipoPasajero tipo    = TipoPasajero.valueOf(partes[2].trim().toUpperCase());
+                    LocalDate fecha      = LocalDate.parse(partes[3].trim()); // ← NUEVO
+                    personas.add(new Pasajero(nombre, cedula, tipo, fecha)); // ← NUEVO
                 } catch (IllegalArgumentException e) {
                     System.out.println("Línea de pasajero inválida ignorada: " + linea);
                 }
